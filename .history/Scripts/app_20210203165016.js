@@ -4,9 +4,9 @@
 //AKA - Anonymous Self-Executing Function
 //Closure - limits scope leak
 
+// created a core namespace
 "use strict";
-
-((core) =>
+(function(core)
 {
     function displayHome()
     {
@@ -77,32 +77,30 @@
 
     function displayContact()
     {
-      let messageArea = $("#messageArea").hide();
+        $("#messageArea").hide();
 
         // form validation
+
         $("#fullName").on("blur", function()
         {
           if($(this).val().length < 2)
           {
-            $(this).trigger("focus").trigger("select");
-            messageArea.show().addClass("alert alert-danger").text("Please enter an appropriate Name");
+              $(this).trigger("focus").trigger("select");
+              $("#messageArea").show().addClass("alert alert-danger").text("Please enter an appropriate Name");
           }
           else
           {
-              messageArea.removeAttr("class").hide();
+             $("#messageArea").removeAttr("class").hide();
           }
         });
 
-        $("#sendButton").on("click", (event)=> 
+        $("#sendButton").on("click", ()=>
         {
-          if($("#subscribeCheckbox")[0].checked)
-          {
-            let contact = new core.Contact(fullName.value, contactNumber.value, emailAddress.value);
+          let contact = new core.Contact(fullName.value, contactNumber.value, emailAddress.value);
 
-            if(contact.serialize())
-            {
-              localStorage.setItem((localStorage.length + 1).toString(), contact.serialize());
-            }
+          if(contact.serialize())
+          {
+            localStorage.setItem((localStorage.length + 1).toString(), contact.serialize());
           }
         });
     }
@@ -111,8 +109,6 @@
     {
       if (localStorage.length > 0) 
       {
-        let contactList = document.getElementById("contactList");
-
         let data = "";
 
         for (let index = 0; index < localStorage.length; index++) 
@@ -127,26 +123,10 @@
           <td>${contact.FullName}</td>
           <td>${contact.ContactNumber}</td>
           <td>${contact.EmailAddress}</td>
-          <td class="text-center"><button value="${index + 1}" class="btn btn-primary btn-sm edit"><i class="fas fa-edit fa-sm"></i> Edit</button></td>
-          <td class="text-center"><button value="${index + 1}" class="btn btn-danger btn-sm delete"><i class="fas fa-trash-alt fa-sm"></i> Delete</button></td>
         </tr>`;
         }
 
-        contactList.innerHTML = data;
-
-        //TODO - need to create an edit page
-        $("button.edit").on("click", function(){
-          console.log($(this).val());
-         });
-
-         //TODO - need to fix this item - it breaks when we delete a middle item
-         $("button.delete").on("click", function(){
-           if(confirm("Are you sure?"))
-           {
-            localStorage.removeItem($(this).val());
-            location.href = "contact-list.html"; // refresh the page
-           }
-         });
+        $("#contactList").html(data);
       }
     }
 
@@ -182,6 +162,5 @@
 
     window.addEventListener("load", Start);
 
-    core.Start = Start;
 
-})(core || (core={}));
+})(core || (core = {}));

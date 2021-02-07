@@ -1,7 +1,8 @@
 "use strict";
 // Contact Class
 
-((core)=>{
+(function(core)
+{
   class Contact {
     // getters and setters
     get FullName() 
