@@ -1,4 +1,4 @@
-/* Aaron LeBlanc 100700122 Adapted from Tom Tsiliopoulous */
+/* custom JavaScript goes here */
 
 //IIFE - Immediately Invoked Function Expression
 //AKA - Anonymous Self-Executing Function
